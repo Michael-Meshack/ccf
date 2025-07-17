@@ -29,6 +29,7 @@ html {
 body {
     background: var(--bg-color);
     color: var(--text-color);
+    line-height: 1.6;
 }
 
 .header {
@@ -41,8 +42,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
-    transition: .3s;
+    z-index: 1000;
+    transition: all .3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .header.sticky {
@@ -112,13 +114,37 @@ section {
     padding: 10rem 9% 2rem;
 }
 
+/* Nouvelle animation pour les cartes */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Effet parallaxe */
+.parallax {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Animation texte dégradé */
+.gradient-text {
+    background: linear-gradient(45deg, #00abf0, #00ff95, #00abf0);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient 8s ease infinite;
+}
+
 /* ================ Section Accueil ================ */
 .home {
     position: relative;
     display: flex;
     align-items: center;
     padding: 0 9%;
-    background: url('/Images/Logo.png') no-repeat center center;
+    background: url('/assets/images/logo/Logo.png') no-repeat center center;
     background-size: 50% auto;
     background-position: center 35%;
     position: relative;
@@ -685,15 +711,12 @@ span {
 
 .cours-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 3rem;
 }
 
-.cours-container .cours-box {
-    flex: 1 1 calc(33.333% - 2rem);
-    min-width: 300px;
-}
-
+.cours-container .cours-box:nth-child(3n+1),
 .cours-container .cours-box:nth-last-child(2):not(:nth-child(3n)),
 .cours-container .cours-box:last-child:not(:nth-child(3n)) {
     flex: 1 1 calc(50% - 2rem);
@@ -1173,6 +1196,107 @@ span {
     color: var(--bg-color);
 }
 
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background-color: var(--second-bg-color);
+    margin: 5% auto;
+    padding: 3rem;
+    border: .2rem solid var(--main-color);
+    border-radius: 1rem;
+    width: 80%;
+    max-width: 900px;
+    position: relative;
+    animation: fadeIn 0.5s;
+}
+
+.close {
+    color: var(--main-color);
+    float: right;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close:hover {
+    color: var(--text-color);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 2rem 0;
+    font-size: 1.6rem;
+    line-height: 1.6;
+}
+
+
+/* Design pour les cours */
+.cours-details {
+    background: var(--second-bg-color);
+    padding: 8rem 9%;
+    border-radius: 1rem;
+    margin: 3rem auto;
+    max-width: 1200px;
+}
+
+.titre-cours {
+    background: var(--bg-color);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+}
+
+.titre-cours h2 {
+    color: var(--main-color);
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.titre-cours h3 {
+    font-size: 2.5rem;
+    color: var(--main-color);
+    margin: 2rem 0 1rem;
+}
+
+.titre-cours p, 
+.titre-cours ol, 
+.titre-cours ul {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    margin: 1.5rem;
+    text-align: justify;
+}
+
+.titre-cours ul ul {
+    margin-left: 2rem;
+}
+
+.titre-cours li {
+    margin-bottom: 0.5rem;
+}
+
+/* Correction des couleurs des sections */
+.apercu, .objectifs, .resultas, .competences {
+    color: var(--text-color) !important;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
 /* ANIMATION RELOAD AND SCROLL  */
 .animate {
     position: absolute;
@@ -1225,6 +1349,23 @@ section:nth-child(odd) .animate.scroll,
 
 
 /* ================ Animation ================ */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1.5rem); }
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Effet glassmorphism */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -1294,8 +1435,6 @@ section:nth-child(odd) .animate.scroll,
 .cours-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    width: 100%;
 }
 
 /* Cas général : quand il y a 2 éléments seuls sur la dernière ligne */
@@ -1523,4 +1662,19 @@ section:nth-child(odd) .animate.scroll,
     .about .heading h2 {
         font-size: 4.7rem;
     }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.lazy {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy.loaded {
+    opacity: 1;
 }

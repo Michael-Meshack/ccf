@@ -177,12 +177,21 @@ if (boutonsVoirPlus.length && modal) {
     boutonsVoirPlus.forEach(bouton => {
         bouton.addEventListener('click', (e) => {
             e.preventDefault();
-            const idCours = bouton.getAttribute('href').replace('#', '');
-            const contenuCours = document.getElementById(idCours);
-            if (contenuCours) {
-                modalBody.innerHTML = contenuCours.innerHTML;
+            const url = bouton.getAttribute('href');
+            fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error("Fichier non trouvé");
+                return response.text();
+            })
+            .then(html => {
+                modalBody.innerHTML = html;
                 modal.style.display = 'block';
-            }
+            })
+            .catch(error => {
+                modalBody.innerHTML = "<p>Erreur lors du chargement du contenu.</p>";
+                modal.style.display = 'block';
+                console.error(error);
+            });
         });
     });
 
